@@ -1,9 +1,13 @@
 # Job Duplication Detection via Vector Similarity Search
 
-> The input file `jobs.csv` can be downloaded [here](https://drive.google.com/file/d/1RAWMIR_V7BZm6EbYP-U-Sa7dSCVZTufB/view?usp=drive_link)
+> The input file `jobs.csv` can be downloaded [here](https://drive.google.com/file/d/1RAWMIR_V7BZm6EbYP-U-Sa7dSCVZTufB/view?usp=drive_link).
 > By default, the system expects this file to be located at `data/raw/jobs.csv` but can be changed using flags.
 
-> If prefered, you can download the `data/processed/embeddings.npy` and `data/processed/job_ids.csv` files [here](https://drive.google.com/drive/folders/1DzwQWj31ROUdjSUkOzsV5UwJXSFyKBT0?usp=sharing)
+> If prefered, you can download the `data/processed/embeddings.npy` and `data/processed/job_ids.csv` files [here](https://drive.google.com/drive/folders/1DzwQWj31ROUdjSUkOzsV5UwJXSFyKBT0?usp=sharing).
+
+## Video demo
+Watch a short demo of the full pipeline in action [here](https://drive.google.com/file/d/1L1XStqexn_AsdUSL-u3zYlh6Zh4b2_c_/view?usp=sharing).
+
 
 ## Overview
 This project performs job duplication detection by comparing vector embeddings of job postings using approximate nearest neighbor search. It uses Sentence Transformers (MiniLM-L6-v2) to generate embeddings and Milvus as the vector database. The system is containerized using Docker and can be easily run and evaluated using `docker compose`.
