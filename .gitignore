@@ -1,5 +1,9 @@
 #### Custom:
 volumes/
+data/processed/*.csv
+data/processed/*.npy
+data/raw/*.csv
+.DS_Store
 
 #### for Python:
 # Byte-compiled / optimized / DLL files
