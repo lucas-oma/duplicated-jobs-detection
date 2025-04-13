@@ -28,7 +28,6 @@ class JobQuery(BaseModel):
     finalState: str = ""
     nlpDegreeLevel: List[str] = []
     jobDescRaw: str = ""
-    top_k: int = 5
     threshold: float = 0.95
 
 @app.post("/search")
@@ -36,15 +35,14 @@ def search_duplicate(query: JobQuery):
     try:
         # Convert input to one-row DataFrame
         df = pd.DataFrame([query.dict()])
-        top_k = df.pop("top_k").iloc[0]
         threshold = df.pop("threshold").iloc[0]
 
         query_emb = generate_embeddings(df)[0]
 
-        results = vs.search(query_emb.tolist(), top_k=top_k)
+        results = vs.search(query_emb.tolist())
         duplicated = [{"job_id": r[0], "score": round(r[1], 5)} for r in results if r[1] > threshold]
 
-        return {"results": duplicated}
+        return {"duplicates": duplicated}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
