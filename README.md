@@ -60,6 +60,8 @@ The purpose of EDA was to:
 - Detect formatting inconsistencies (e.g., trailing commas in city/state)
 - Understand text format of job descriptions (e.g., html format)
 
+A written summary of key insights and findings can be found at `eda_notebooks/README.md`
+
 > **Note**: Data is not modified during EDA to preserve "plug-and-play" compatibility. Any new CSV following the same structure can be used directly. This behavior is intended.
 
 ---
@@ -189,13 +191,14 @@ sudo docker compose run --rm app python main.py --evaluate
 
 Runs multiple evaluation routines:
 
-    - Threshold vs. Count Curve: how many pairs would be matched at different thresholds
+    1. Threshold vs. Count Curve: how many pairs would be matched at different thresholds
+      - Helps to visually identify a good cutoff point for the similarity score. A sharp drop-off in the curve might indicate the threshold where similarity goes from semantically strong matches to noisy ones.
 
-    - Manual Inspection Sample: samples N high-scoring pairs for inspection
+    2. Manual Inspection Sample: samples N high-scoring pairs for inspection
+      - Provides a quality check: *are high-similarity pairs really duplicates?* Helps validate whether the current embedding model and threshold are capturing meaningful similarities.
 
-    - Heuristic Matching: e.g., identical titles + cities + degree levels for score reference
-
-Helps validate threshold
+    3. Heuristic Matching: e.g., identical titles + cities + degree levels for score reference
+      - Acts as a sanity check or pseudo ground truth. Allows us to verify whether the system is at least catching the most obvious duplicates.
 
 Outputs:
     - `data/eval/threshold_curve.png`
@@ -284,17 +287,16 @@ The API will be available at: `http://localhost:8000`
   "finalState": "CA",
   "nlpDegreeLevel": ["Bachelors"],
   "jobDescRaw": "Work on cutting-edge AI research and deployment.",
-  "top_k": 5,
-  "threshold": 0.95
+  "threshold": 0.92
 }
 ```
 
-**Response (example):**
+**Response example (duplicates detected):**
 ```json
 Response:
 
 {
-  "results": [
+  "duplicates": [
     {"job_id": "abc123", "score": 0.96},
     {"job_id": "def456", "score": 0.98}
   ]
@@ -309,13 +311,19 @@ Response:
 
 ## Follow-ups
 
-For duplicate detection, I would also recommend to incorporate an LLM model for score matching to the results that are above the threshold. BERT should be good (if GPU allows it) or simply a cheap OpenAI model such as gpt-o4-mini should do the job. ALthough this might increase cost greatly
+To further improve duplicate detection, especially for borderline cases near the similarity threshold, I would recommend incorporating an LLM-based validation step. For example:
+
+- A model like BERT could be used to re-score or classify pairs based on full semantic context,  ideal if GPU resources are available.
+
+- Alternatively, a lightweight and cost-effective model like OpenAI's gpt-4o-mini could be used as a final filtering step.
+
+This additional layer can help reduce false positives and improve confidence in flagged duplicates. However, keep in mind that this approach may introduce additional latency and API costs, especially when scaled to large datasets.
 
 ---
 
 ## Notes
-- `.env` file is optional and not required for this project
 - Vector dimensions can be customized, but 384 is recommended for `all-MiniLM-L6-v2`
+
 - Milvus uses cosine distance; embeddings are normalized prior to insertion (this is done internaly by the `VectorSearch` class)
 
 ---
