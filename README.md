@@ -302,8 +302,6 @@ The API will be available at: `http://localhost:8000`
 
 **Response example (duplicates detected):**
 ```json
-Response:
-
 {
   "duplicates": [
     {"job_id": "abc123", "score": 0.96},
