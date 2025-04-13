@@ -50,7 +50,7 @@ def start(input_csv, output_npy, output_indexes):
     assert len(lid_list) == len(embeddings), "Mismatch between number of IDs and embeddings!"
 
     vs = VectorSearch(dim=embeddings.shape[1])
-    # vs.delete_all()
+    
     vs.add(lid_list, embeddings)
 
     print(f"Successfully inserted {len(lid_list)} embeddings into Milvus!")
