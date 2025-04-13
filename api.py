@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import numpy as np
 import pandas as pd
 from src.vector_search import VectorSearch
-from src.embeddings import generate_single_embedding
+from src.embeddings import generate_embeddings
 from typing import List
 
 
@@ -29,9 +29,9 @@ class JobQuery(BaseModel):
     nlpDegreeLevel: List[str] = []
     jobDescRaw: str = ""
     top_k: int = 5
-    threshold: int = 0.95
+    threshold: float = 0.95
 
-
+@app.post("/search")
 def search_duplicate(query: JobQuery):
     try:
         # Convert input to one-row DataFrame
@@ -47,5 +47,4 @@ def search_duplicate(query: JobQuery):
         return {"results": duplicated}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
