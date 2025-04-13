@@ -1,0 +1,15 @@
+curl -X POST http://localhost:8000/search \
+    -H "Content-Type: application/json" \
+    -d '{
+        "jobTitle": "Software Engineer",
+        "companyName": "OpenAI",
+        "companyBranchName": "San Francisco",
+        "nlpEmployment": "Full-time",
+        "nlpSeniority": "Entry level",
+        "finalCity": "San Francisco",
+        "finalState": "CA",
+        "nlpDegreeLevel": ["Bachelors"],
+        "jobDescRaw": "Work on cutting-edge AI research and deployment.",
+        "top_k": 5,
+        "threshold": 0.92
+    }'
