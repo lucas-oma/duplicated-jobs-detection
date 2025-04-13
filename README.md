@@ -311,13 +311,23 @@ Response:
 
 ## Follow-ups
 
-To further improve duplicate detection, especially for borderline cases near the similarity threshold, I would recommend incorporating an LLM-based validation step. For example:
+To further improve duplicate detection and analysis, I would suggest the following enhancements:
+
+### LLM-based validation:
+
+For borderline cases near the similarity threshold, incorporating a lightweight LLM can help validate or re-rank potential duplicates.
 
 - A model like BERT could be used to re-score or classify pairs based on full semantic context,  ideal if GPU resources are available.
 
 - Alternatively, a lightweight and cost-effective model like OpenAI's gpt-4o-mini could be used as a final filtering step.
 
 This additional layer can help reduce false positives and improve confidence in flagged duplicates. However, keep in mind that this approach may introduce additional latency and API costs, especially when scaled to large datasets.
+
+### Persisting job data in a database:
+
+Saving jobs.csv into a local relational database (e.g., PostgreSQL) can make analysis more efficient: looking up jobs by ID becomes significantly faster and easier than scanning a large CSV file.
+
+These follow-ups can enhance both the accuracy and usability of the system, especially as the dataset scales.
 
 ---
 
