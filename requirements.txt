@@ -1,8 +1,10 @@
 pymilvus==2.3.3
 numpy==2.2.4
 pandas==2.2.3
+huggingface_hub==0.11.1
 sentence-transformers==2.2.2
 tqdm==4.67.1
 matplotlib==3.10.1
 fastapi==0.115.12
 uvicorn==0.34.0
+beautifulsoup4==4.13.3
