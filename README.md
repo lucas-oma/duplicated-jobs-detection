@@ -71,6 +71,13 @@ To generate and save the job embeddings, run:
 ```bash
 python src/embeddings.py
 ```
+or inside the container:
+
+```bash
+docker compose run --rm app python src/embeddings.py
+```
+
+> It is recommended to enable GPU support for docker since this process might take a while
 
 This script supports the following optional arguments:
 ```bash
